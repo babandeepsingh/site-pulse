@@ -12,6 +12,8 @@ import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import LandingPage from "@/components/LandingPage/LandingPage";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 interface userInterface {
   id: number,
@@ -29,6 +31,7 @@ export default function Home() {
   const [sites, setSites] = useState<{ [key: string]: any }>({});
   const [selectedChartOption, setSelectedChartOption] = useState({});
   const [selectLink, setSelectedLink] = useState("");
+  const [showError, setShowError] = useState(false);
   const [formData, setFormData] = useState({
     userId: 0,
     name: '',
@@ -52,17 +55,22 @@ export default function Home() {
     }
   }
 
+  const getCheckStatus = (id: number) => {
+    setSites({});
+    setLoading(true)
+    fetch('/api/check/' + id)
+      .then((response) => response.json())
+      .then((data) => {
+        setSites(data.sites);
+        console.log("Fetched sites:", data.sites);
+        setLoading(false)
+
+      })
+  }
+
   useEffect(() => {
     if (userData?.id) {
-      setLoading(true)
-      fetch('/api/check/' + userData.id)
-        .then((response) => response.json())
-        .then((data) => {
-          setSites(data.sites);
-          console.log("Fetched sites:", data.sites);
-          setLoading(false)
-
-        })
+      getCheckStatus(userData?.id)
 
       // const results = fetch('/api/check/' + userData.id + '/1'); // Example siteId, replace with actual siteId if needed
 
@@ -183,6 +191,16 @@ export default function Home() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formDataClone),
       });
+      if (!result.ok) {
+        setShowError(true)
+        setTimeout(() => {
+          setShowError(false)
+        }, 2000)
+        return
+      }
+      const data = await result.json(); // ✅ parse JSON response
+      getCheckStatus(userData?.id)
+
 
 
       console.log(formData, "yess")
@@ -204,11 +222,21 @@ export default function Home() {
     <div className="font-sans px-32 py-4 h-screen">
       {isSignedIn ?
         <>
+
+
           <div className="flex justify-end">
             <UserButton />
           </div>
           <div className="grid">
-            <h6>Welcome, {user?.fullName}</h6>
+            {showError && <Alert variant="destructive">
+              {/* <Terminal /> */}
+              <AlertTitle>Sorry</AlertTitle>
+              <AlertDescription>
+                We are not able to process the request currently
+              </AlertDescription>
+            </Alert>}
+            <h6>Welcome, <span className="bg-gradient-to-r text-xl from-purple-500 to-indigo-500 bg-clip-text text-transparent">{user?.fullName}</span></h6>
+
           </div>
           {loading && <div className="flex flex-col space-y-3  py-4">
             {/* <Skeleton className="h-[200px] w-[220px] rounded-xl" /> */}
@@ -222,7 +250,7 @@ export default function Home() {
           </div>}
           <div className="grid grid-cols-4 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  py-4">
             {Object.keys(sites).length > 0 && Object.keys(sites).map(site => (
-              <Card key={site} className={`${selectLink == site ? "shadow-lg ring-2 ring-zinc-800" : "shadow"}`} onClick={e => handleSiteClick(sites[site], site)}><CardHeader><CardTitle className="">{site}</CardTitle></CardHeader></Card>
+              <Card key={site} className={`${selectLink == site ? "shadow-lg ring-2 ring-zinc-800" : "shadow"} bg-gradient-to-r from-purple-500 to-indigo-500 text-white`} onClick={e => handleSiteClick(sites[site], site)}><CardHeader><CardTitle className="">{site}</CardTitle></CardHeader></Card>
             ))}
           </div>
           <div>
@@ -234,18 +262,19 @@ export default function Home() {
           </div>
           {/* <Button onClick={handleRefresh}>Refresh</Button> */}
           {/* <HighchartsReact highcharts={Highcharts} options={options} /> */}
-          {isSignedIn && !loading && Object.keys(sites).length < 6 &&
+          {isSignedIn && !loading && Object.keys(sites).length < 5 &&
             <form style={{ width: '50%' }} onSubmit={handleNewUrl}>
               <Label htmlFor="url" className="py-4">URL</Label>
-              <Input className="foc" type="text" name="url" onChange={handleFormValues} />
+              <Input className="focus-visible:ring-2 focus-visible:ring-purple-600 focus-visible:ring-offset-2" type="text" name="url" onChange={handleFormValues} />
               {urlError && <div className="text-red-400 text-sm py-1">{urlError}</div>}
               <Label htmlFor="url" className="py-4">Name</Label>
-              <Input type="text" name="name" onChange={handleFormValues} />
-              <Button className="py-4 my-4" type="submit">Submit</Button>
+              <Input type="text" className="focus-visible:ring-2 focus-visible:ring-purple-600 focus-visible:ring-offset-2" name="name" onChange={handleFormValues} />
+              <Button className="py-4 my-4 bg-purple-700 hover:bg-purple-800 text-white text-lg px-6 rounded-md" type="submit">Submit</Button>
             </form>}
         </>
         :
-        <div className="flex justify-center items-center h-full"><SignIn routing="hash" /></div>
+        <LandingPage />
+        // <div className="flex justify-center items-center h-full"><SignIn routing="hash" /></div>
       }
 
     </div>
