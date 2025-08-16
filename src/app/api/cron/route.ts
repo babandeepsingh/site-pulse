@@ -1,14 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from 'axios';
 import { Pool } from "pg";
+import { Resend } from 'resend';
+import { useAuth } from "@clerk/nextjs";
 
 const pool = new Pool({
     connectionString: process.env.POSTGRES_DB_URL,
 });
 
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 export async function GET(req: NextRequest) {
 
     let client;
+    // const { userId } = useAuth();
 
     try {
         client = await pool.connect();
@@ -49,6 +54,38 @@ export async function GET(req: NextRequest) {
                 const insertValues = [row.id, false, 400, 5000, err.message];
 
                 await client.query(insertQuery, insertValues);
+
+                const emailInfo = `
+                SELECT u.emailid, s.url
+                FROM users u
+                JOIN sites s ON u.id = s.userId
+                WHERE s.id = $1;
+                `
+                const getValues = [row.id]
+
+
+
+                const resultUser = await client.query(emailInfo, [row.id])
+
+
+
+                console.log(resultUser, "data::")
+                const { data, error } = await resend.emails.send({
+                    from: 'NoReply <noreply@mail.babandeep.in>',
+                    to: [resultUser.rows[0].emailid],
+                    subject: `Alert from SitePulse, Your site ${resultUser.rows[0].url} is down`,
+                    html: `<div>Hello</div>,
+                    <br />
+                    <div>Your website is down ${resultUser.rows[0].url}</div>
+                    <br />
+                    <div>Thanks and Regards,</div>
+                    <div>Admin</div>`
+                });
+                if (data) {
+                    //do nothing
+                } else {
+                    console.log("We faced issue in sending email : " +  resultUser.rows[0].url )
+                }
             }
         }
 
