@@ -23,14 +23,14 @@ const LandingPage = () => {
     return (
         <div className="bg-white text-black">
             {/* Hero Section */}
-            <section className="flex flex-col justify-center items-center h-screen bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-center py-16">
+            <section className="flex flex-col justify-center items-center h-screen bg-gradient-to-r from-teal-600 to-cyan-600 text-white text-center py-16">
                 <h1 className="text-5xl font-bold leading-tight mb-4">
                     Welcome to the Future of Site Monitoring
                 </h1>
                 <p className="text-lg mb-8 max-w-2xl mx-auto">
                     Monitor your websites in real-time with powerful analytics and seamless uptime checks. Stay on top of your site's health effortlessly.
                 </p>
-                <Button onClick={e => setOpen(true)} className="bg-violet-700 hover:bg-violet-800 text-white text-lg py-3 px-6 rounded-md">
+                <Button onClick={e => setOpen(true)} className="bg-teal-700 hover:bg-teal-800 text-white text-lg py-3 px-6 rounded-md">
                     Get Started
                 </Button>
             </section>
@@ -68,12 +68,12 @@ const LandingPage = () => {
             </section>
 
             {/* Call to Action Section */}
-            <section className="py-16 bg-gradient-to-r from-violet-500 to-indigo-500 text-white text-center">
+            <section className="py-16 bg-gradient-to-r from-teal-500 to-cyan-500 text-white text-center">
                 <h2 className="text-3xl font-semibold mb-6">Start Monitoring Today</h2>
                 <p className="text-lg mb-8 max-w-2xl mx-auto">
                     Don't wait until your website goes down. Take control of your site's performance now.
                 </p>
-                <Button onClick={e => setOpen(true)} className="bg-white text-violet-600 hover:bg-gray-200 text-lg py-3 px-6 rounded-md">
+                <Button onClick={e => setOpen(true)} className="bg-white text-teal-600 hover:bg-gray-200 text-lg py-3 px-6 rounded-md">
                     Try It For Free
                 </Button>
             </section>

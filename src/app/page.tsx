@@ -11,6 +11,8 @@ import LandingPage from "@/components/LandingPage/LandingPage";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useDashboard } from "./useDashboard";
 import { UserButton } from "@clerk/nextjs";
+import Image from "next/image";
+import logo from './assets/logo.png'
 
 export default function Home() {
   const {
@@ -32,8 +34,19 @@ export default function Home() {
     <div className="font-sans px-4 sm:px-8 lg:px-32 py-4 h-screen">
       {isSignedIn ? (
         <>
-          <div className="flex justify-end">
-             <UserButton />
+          <div className="flex items-center justify-between">
+            <div>
+              <Image
+                src={logo}
+                alt="SitesPulse"
+                className="rounded-full m-1"
+                width={50}
+                height={25}
+              />
+            </div>
+            <div>
+              <UserButton />
+            </div>
           </div>
 
           <div className="grid">
@@ -46,7 +59,7 @@ export default function Home() {
 
             <h6>
               Welcome,{" "}
-              <span className="bg-gradient-to-r text-xl from-violet-500 to-indigo-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r text-xl from-teal-500 to-cyan-500 bg-clip-text text-transparent">
                 {userData?.fullname}
               </span>
             </h6>
@@ -70,7 +83,7 @@ export default function Home() {
                 <Card
                   key={siteKey}
                   onClick={() => handleSiteClick(site?.checks, siteKey)}
-                  className={`bg-gradient-to-r from-violet-500 to-indigo-500 text-white`}
+                  className={`bg-gradient-to-r from-teal-500 to-cyan-500 text-white`}
                 >
                   <CardHeader>
                     <CardTitle>URL : {siteKey}</CardTitle>
@@ -95,7 +108,7 @@ export default function Home() {
           {isSignedIn && !loading && Object.keys(sites).length < 5 && <form style={{ width: '100%', maxWidth: '600px' }} onSubmit={handleNewUrl}>
             <Label htmlFor="url" className="py-4">URL</Label>
             <Input
-              className="focus-visible:ring-2 focus-visible:ring-violet-600 focus-visible:ring-offset-2 w-full"
+              className="focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 w-full"
               type="text"
               name="url"
               onChange={handleFormValues}
@@ -105,12 +118,12 @@ export default function Home() {
             <Label htmlFor="name" className="py-4">Name</Label>
             <Input
               type="text"
-              className="focus-visible:ring-2 focus-visible:ring-violet-600 focus-visible:ring-offset-2 w-full"
+              className="focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 w-full"
               name="name"
               onChange={handleFormValues}
             />
 
-            <Button className="py-4 my-4 bg-violet-700 hover:bg-violet-800 text-white text-lg px-6 rounded-md w-full" type="submit">
+            <Button className="py-4 my-4 bg-teal-700 hover:bg-teal-800 text-white text-lg px-6 rounded-md w-full" type="submit">
               Submit
             </Button>
           </form>}

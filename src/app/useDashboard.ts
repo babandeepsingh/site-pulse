@@ -89,7 +89,7 @@ export function useDashboard() {
             title: {
                 text: `Chart | Web monitoring | ${name}`,
                 style: {
-                    color: '#8200db',
+                    color: '#042f2e',
                     fontWeight: 'normal'
                 }
             },

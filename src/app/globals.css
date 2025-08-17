@@ -161,5 +161,9 @@
 .highcharts-subtitle {
   background-clip: text;
   color: transparent;
-  fill: #8b5cf6 !important;
+  fill: #0d9488 !important;
+}
+
+.cl-open{
+
 }

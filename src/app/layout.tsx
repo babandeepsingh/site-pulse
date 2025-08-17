@@ -70,7 +70,7 @@ export default function RootLayout({
               <meta name="description" content="Monitor your website's uptime, performance, and security with Sitespulse. Get real-time alerts and insights." />
               <meta property="og:title" content="Sitespulse - Website Monitoring Tool" />
               <meta property="og:description" content="Real-time website monitoring tool for uptime, performance, and security." />
-              <meta property="og:image" content="/images/og-image.jpg" />
+              <meta property="og:image" content="./assets/logo.png" />
               <meta property="og:url" content="https://sitespulse.babandeep.in" />
             </Head>
           </header>
