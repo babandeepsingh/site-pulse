@@ -85,8 +85,8 @@ const LandingPage = () => {
                 <DrawerTrigger>Open</DrawerTrigger>
                 <DrawerContent>
                     <DrawerHeader>
-                        <DrawerTitle>Welcome to SitePlus Sign in Below</DrawerTitle>
-                        <DrawerDescription>This action cannot be undone.</DrawerDescription>
+                        <DrawerTitle>Welcome to SitesPlus Sign in Below</DrawerTitle>
+                        {/* <DrawerDescription>This action cannot be undone.</DrawerDescription> */}
                     </DrawerHeader>
                     <DrawerFooter>
                         <div className="flex justify-center items-center p-10">

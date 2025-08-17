@@ -17,6 +17,7 @@ interface Site {
 
 export function useDashboard() {
     const { isSignedIn, userData } = useUserLogin();
+    console.log(isSignedIn, userData, "Woho:::")
     const [sites, setSites] = useState<{ [key: string]: Site }>({});
     const [loading, setLoading] = useState<boolean>(false);
     const [selectedChartOption, setSelectedChartOption] = useState<any>({});

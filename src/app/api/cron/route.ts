@@ -73,7 +73,7 @@ export async function GET(req: NextRequest) {
                 const { data, error } = await resend.emails.send({
                     from: 'NoReply <noreply@mail.babandeep.in>',
                     to: [resultUser.rows[0].emailid],
-                    subject: `Alert from SitePulse, Your site ${resultUser.rows[0].url} is down`,
+                    subject: `Alert from SitesPulse, Your site ${resultUser.rows[0].url} is down`,
                     html: `<div>Hello</div>,
                     <br />
                     <div>Your website is down ${resultUser.rows[0].url}</div>

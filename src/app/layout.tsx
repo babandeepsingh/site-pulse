@@ -9,6 +9,7 @@ import {
   UserButton,
 } from '@clerk/nextjs'
 import "./globals.css";
+import Head from "next/head";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,7 +22,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SitePulse",
+  title: "Site's Pulse",
   description: "Website monitoring tool",
 };
 
@@ -48,6 +49,30 @@ export default function RootLayout({
             <SignedIn>
               <UserButton />
             </SignedIn> */}
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                  "@context": "https://schema.org",
+                  "@type": "WebSite",
+                  "name": "Sitespulse",
+                  "url": "https://sitespulse.babandeep.in",
+                  "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": "https://sitespulse.babandeep.in/search?q={search_term}",
+                    "query-input": "required name=search_term",
+                  },
+                }),
+              }}
+            />
+            <Head>
+              <title>Sitespulse - Website Monitoring Tool</title>
+              <meta name="description" content="Monitor your website's uptime, performance, and security with Sitespulse. Get real-time alerts and insights." />
+              <meta property="og:title" content="Sitespulse - Website Monitoring Tool" />
+              <meta property="og:description" content="Real-time website monitoring tool for uptime, performance, and security." />
+              <meta property="og:image" content="/images/og-image.jpg" />
+              <meta property="og:url" content="https://sitespulse.babandeep.in" />
+            </Head>
           </header>
           {children}
         </body>

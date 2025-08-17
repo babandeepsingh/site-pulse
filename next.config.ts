@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  siteUrl: 'https://sitespulse.babandeep.in',
+  generateRobotsTxt: true,
+
 };
 
 export default nextConfig;

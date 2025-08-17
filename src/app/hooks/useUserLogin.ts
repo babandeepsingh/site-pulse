@@ -12,6 +12,7 @@ interface UserData {
 
 export function useUserLogin() {
   const { isSignedIn, user } = useUser();
+  console.log(isSignedIn, user, "Wohoo2:::")
   const [userData, setUserData] = useState<UserData | null>(null);
 
   const initiateSignIn = async () => {
