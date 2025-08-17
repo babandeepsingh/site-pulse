@@ -23,14 +23,14 @@ const LandingPage = () => {
     return (
         <div className="bg-white text-black">
             {/* Hero Section */}
-            <section className="flex flex-col justify-center items-center h-screen bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-center py-16">
+            <section className="flex flex-col justify-center items-center h-screen bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-center py-16">
                 <h1 className="text-5xl font-bold leading-tight mb-4">
                     Welcome to the Future of Site Monitoring
                 </h1>
                 <p className="text-lg mb-8 max-w-2xl mx-auto">
                     Monitor your websites in real-time with powerful analytics and seamless uptime checks. Stay on top of your site's health effortlessly.
                 </p>
-                <Button onClick={e => setOpen(true)} className="bg-purple-700 hover:bg-purple-800 text-white text-lg py-3 px-6 rounded-md">
+                <Button onClick={e => setOpen(true)} className="bg-violet-700 hover:bg-violet-800 text-white text-lg py-3 px-6 rounded-md">
                     Get Started
                 </Button>
             </section>
@@ -41,14 +41,14 @@ const LandingPage = () => {
                     <h2 className="text-3xl font-semibold text-gray-900 mb-8">
                         Features That Make Monitoring Easy
                     </h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
                         <Card className="shadow-lg">
                             <CardHeader>
                                 <CardTitle>Real-Time Monitoring</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <CardDescription>
-                                    Stay updated with real-time data about your site's performance and health.
+                                    Stay updated with real-time data about your site's performance and health. Get your website monitored everyday at 5:00 AM UST.
                                 </CardDescription>
                             </CardContent>
                         </Card>
@@ -58,31 +58,22 @@ const LandingPage = () => {
                             </CardHeader>
                             <CardContent>
                                 <CardDescription>
-                                    Dive deep into historical data and view detailed analytics to improve your uptime.
+                                    Dive deep into historical data and view detailed analytics to improve your uptime. Get alert over email if website is down
                                 </CardDescription>
                             </CardContent>
                         </Card>
-                        <Card className="shadow-lg">
-                            <CardHeader>
-                                <CardTitle>Custom Alerts</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <CardDescription>
-                                    Set up custom alerts to be notified immediately when issues arise with your site.
-                                </CardDescription>
-                            </CardContent>
-                        </Card>
+                        
                     </div>
                 </div>
             </section>
 
             {/* Call to Action Section */}
-            <section className="py-16 bg-gradient-to-r from-purple-500 to-indigo-500 text-white text-center">
+            <section className="py-16 bg-gradient-to-r from-violet-500 to-indigo-500 text-white text-center">
                 <h2 className="text-3xl font-semibold mb-6">Start Monitoring Today</h2>
                 <p className="text-lg mb-8 max-w-2xl mx-auto">
                     Don't wait until your website goes down. Take control of your site's performance now.
                 </p>
-                <Button onClick={e => setOpen(true)} className="bg-white text-purple-600 hover:bg-gray-200 text-lg py-3 px-6 rounded-md">
+                <Button onClick={e => setOpen(true)} className="bg-white text-violet-600 hover:bg-gray-200 text-lg py-3 px-6 rounded-md">
                     Try It For Free
                 </Button>
             </section>
