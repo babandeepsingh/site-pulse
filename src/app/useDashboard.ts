@@ -39,10 +39,21 @@ export function useDashboard() {
             // const responses = await fetch(`/api/cron`);
 
             const data = await response.json();
+            if (!response.ok) {
+                setSites({})
+                toast.warning(data.error || 'Something went wrong')
+                return
+
+            }
+            console.log(data, "11")
             setSites(data.sites);
         } catch (error) {
+            setSites({})
             console.error(error);
+            console.log(error, "112")
+
         } finally {
+            console.log('oohhh', "113")
             setLoading(false);
         }
     };
@@ -151,6 +162,7 @@ export function useDashboard() {
             }
 
             const formDataClone = { ...formData, userId: userData.id };
+
             try {
                 const result = await fetch('/api/sites', {
                     method: 'POST',
@@ -158,9 +170,10 @@ export function useDashboard() {
                     body: JSON.stringify(formDataClone),
                 });
                 if (!result.ok) {
+                    const data = await result.json();
                     // setShowError(true);
                     // setTimeout(() => setShowError(false), 2000);
-                    toast.warning(`${formData.url} is not reachable. Please try again`)
+                    toast.warning(data.error || `${formData.url} is not reachable. Please try again`)
                     // closeRef.current?.click();
 
                     return;
