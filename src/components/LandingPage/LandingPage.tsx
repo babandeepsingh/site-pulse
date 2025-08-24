@@ -15,6 +15,8 @@ import {
     DrawerTrigger,
 } from "@/components/ui/drawer"
 import { SignIn } from "@clerk/nextjs";
+import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "../ui/dialog";
+import { DialogTitle } from "@radix-ui/react-dialog";
 
 // import { Footer } from "@/components/ui/footer"; // Assuming you create a footer component
 
@@ -23,16 +25,33 @@ const LandingPage = () => {
     return (
         <div className="bg-white text-black">
             {/* Hero Section */}
-            <section className="flex flex-col justify-center items-center h-screen bg-gradient-to-r from-teal-600 to-cyan-600 text-white text-center py-16">
+            <section className="flex flex-col justify-center items-center h-screen bg-gradient-to-r from-cyan-600 to-sky-800 text-white text-center py-16">
                 <h1 className="text-5xl font-bold leading-tight mb-4">
                     Welcome to the Future of Site Monitoring
                 </h1>
                 <p className="text-lg mb-8 max-w-2xl mx-auto">
                     Monitor your websites in real-time with powerful analytics and seamless uptime checks. Stay on top of your site's health effortlessly.
                 </p>
-                <Button onClick={e => setOpen(true)} className="bg-teal-700 hover:bg-teal-800 text-white text-lg py-3 px-6 rounded-md">
+                <Dialog>
+                    <DialogTrigger asChild>
+                        {/* <Button variant="outline" className="border-0">Add new site</Button> */}
+                        <Button className="bg-cyan-600 hover:bg-sky-800 text-white text-lg py-3 px-6 rounded-md">
+                            Get Started
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent className="">
+                        <DialogHeader>
+                            <DialogTitle>Sign in to SitesPulse</DialogTitle>
+                        </DialogHeader>
+                        <div className="flex justify-center items-center p-2">
+
+                            <SignIn routing="hash" />
+                        </div>
+                    </DialogContent>
+                </Dialog>
+                {/* <Button onClick={e => setOpen(true)} className="bg-cyan-600 hover:bg-sky-800 text-white text-lg py-3 px-6 rounded-md">
                     Get Started
-                </Button>
+                </Button> */}
             </section>
 
             {/* Features Section */}
@@ -62,31 +81,47 @@ const LandingPage = () => {
                                 </CardDescription>
                             </CardContent>
                         </Card>
-                        
+
                     </div>
                 </div>
             </section>
 
             {/* Call to Action Section */}
-            <section className="py-16 bg-gradient-to-r from-teal-500 to-cyan-500 text-white text-center">
+            <section className="py-16 bg-gradient-to-r from-cyan-600 to-sky-800 text-white text-center">
                 <h2 className="text-3xl font-semibold mb-6">Start Monitoring Today</h2>
                 <p className="text-lg mb-8 max-w-2xl mx-auto">
                     Don't wait until your website goes down. Take control of your site's performance now.
                 </p>
-                <Button onClick={e => setOpen(true)} className="bg-white text-teal-600 hover:bg-gray-200 text-lg py-3 px-6 rounded-md">
+                <Dialog>
+                    <DialogTrigger asChild>
+                        {/* <Button variant="outline" className="border-0">Add new site</Button> */}
+                        <Button className="bg-white text-sky-800 hover:bg-gray-200 text-lg py-3 px-6 rounded-md">
+                            Try It For Free
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent className="">
+                        <DialogHeader>
+                            <DialogTitle>Sign in to SitesPulse</DialogTitle>
+                        </DialogHeader>
+                        <div className="flex justify-center items-center p-2">
+
+                            <SignIn routing="hash" />
+                        </div>
+                    </DialogContent>
+                </Dialog>
+                {/* <Button onClick={e => setOpen(true)} className="bg-white text-sky-800 hover:bg-gray-200 text-lg py-3 px-6 rounded-md">
                     Try It For Free
-                </Button>
+                </Button> */}
             </section>
 
             {/* Footer */}
             {/* <Footer /> */}
 
-            <Drawer open={open} onOpenChange={setOpen}>
+            {/* <Drawer open={open} onOpenChange={setOpen}>
                 <DrawerTrigger>Open</DrawerTrigger>
                 <DrawerContent>
                     <DrawerHeader>
                         <DrawerTitle>Welcome to SitesPlus Sign in Below</DrawerTitle>
-                        {/* <DrawerDescription>This action cannot be undone.</DrawerDescription> */}
                     </DrawerHeader>
                     <DrawerFooter>
                         <div className="flex justify-center items-center p-10">
@@ -95,7 +130,7 @@ const LandingPage = () => {
                         </div>
                     </DrawerFooter>
                 </DrawerContent>
-            </Drawer>
+            </Drawer> */}
         </div>
     );
 };

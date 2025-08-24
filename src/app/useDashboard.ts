@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useUserLogin } from "@/app/hooks/useUserLogin";
-
+import { toast } from "sonner"
 interface SiteCheck {
     checkcreatedat: string;
     status: number;
@@ -11,12 +11,14 @@ interface Site {
     metadata: {
         name: string;
         createdAt: string;
+        isActive: Boolean
     };
     checks: SiteCheck[];
 }
 
 export function useDashboard() {
     const { isSignedIn, userData } = useUserLogin();
+    const closeRef = useRef<HTMLButtonElement>(null);
     console.log(isSignedIn, userData, "Woho:::")
     const [sites, setSites] = useState<{ [key: string]: Site }>({});
     const [loading, setLoading] = useState<boolean>(false);
@@ -34,6 +36,8 @@ export function useDashboard() {
         setLoading(true);
         try {
             const response = await fetch(`/api/check/${id}`);
+            // const responses = await fetch(`/api/cron`);
+
             const data = await response.json();
             setSites(data.sites);
         } catch (error) {
@@ -67,7 +71,21 @@ export function useDashboard() {
             return {
                 checkcreatedat: formattedCheckCreatedAt,
                 status,
-                color: status < 400 ? '#14532d' : '#b91c1c'
+                // color: status < 400 ? '#14532d' : '#b91c1c'
+                color: status < 400 ? {
+                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                    stops: [
+                        [0, '#0891b2'],
+                        [1, '#075985'],
+                    ],
+                } : {
+                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                    stops: [
+                        [0, '#991b1b'],
+                        [1, '#450a0a'],
+                    ],
+                }
+
             };
         });
 
@@ -93,14 +111,18 @@ export function useDashboard() {
                     fontWeight: 'normal'
                 }
             },
+            // subtitle: {
+            //     text: "Blue indicates a healthy site, Red indicates an error",
+            //     style: {
+            //         fontSize: '14px',
+            //         color: '#1e1b4b',
+            //         fontWeight: 'normal',
+            //         marginTop: '10px',
+            //     }
+            // },
             subtitle: {
-                text: "Green indicates a healthy site, Red indicates an error",
-                style: {
-                    fontSize: '14px',
-                    color: '#1e1b4b',
-                    fontWeight: 'normal',
-                    marginTop: '10px',
-                }
+                useHTML: true,
+                text: `<span class="gradient-text">Blue indicates a healthy site, Red indicates an error</span>`,
             },
             xAxis: {
                 categories,
@@ -136,13 +158,22 @@ export function useDashboard() {
                     body: JSON.stringify(formDataClone),
                 });
                 if (!result.ok) {
-                    setShowError(true);
-                    setTimeout(() => setShowError(false), 2000);
+                    // setShowError(true);
+                    // setTimeout(() => setShowError(false), 2000);
+                    toast.warning(`${formData.url} is not reachable. Please try again`)
+                    // closeRef.current?.click();
+
                     return;
                 }
+                toast.success(`${formData.url} is added. Loading dashboard....`)
+
+                closeRef.current?.click();
                 getCheckStatus(userData.id);
+
             } catch (error) {
                 console.error(error);
+                closeRef.current?.click();
+
             }
         }
     };
@@ -166,5 +197,7 @@ export function useDashboard() {
         handleSiteClick,
         handleNewUrl,
         handleFormValues,
+        closeRef,
+        setUrlError
     };
 }

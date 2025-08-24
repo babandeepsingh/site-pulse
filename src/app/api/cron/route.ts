@@ -31,27 +31,28 @@ export async function GET(req: NextRequest) {
                 const latencyMs = end - start;
                 const status = response.status;
                 const ok = status >= 200 && status < 300;
+                console.log(row)
 
                 const insertQuery = `
-                    INSERT INTO checks (siteId, ok, status, latencyMs, error)
-                    VALUES ($1, $2, $3, $4, $5)
+                    INSERT INTO checks (siteId, ok, status, latencyMs, error, isactive)
+                    VALUES ($1, $2, $3, $4, $5, $6)
                     RETURNING *;
                 `;
-                const insertValues = [row.id, ok, status, latencyMs, null];
+                const insertValues = [row.id, ok, status, latencyMs, null, row.isactive];
 
                 await client.query(insertQuery, insertValues);
 
-                console.log(`✅ Checked ${row.url} in ${latencyMs}ms`);
+                console.log(`✅ Checked ${row.url} ${row.isactive} in ${latencyMs}ms`);
 
             } catch (err: any) {
                 console.error(`❌ Error fetching ${row.url}:`, err.message);
 
                 const insertQuery = `
-                    INSERT INTO checks (siteId, ok, status, latencyMs, error)
-                    VALUES ($1, $2, $3, $4, $5)
+                    INSERT INTO checks (siteId, ok, status, latencyMs, error, isactive)
+                    VALUES ($1, $2, $3, $4, $5, $6)
                     RETURNING *;
                 `;
-                const insertValues = [row.id, false, 400, 5000, err.message];
+                const insertValues = [row.id, false, 400, 5000, err.message, , row.isactive];
 
                 await client.query(insertQuery, insertValues);
 

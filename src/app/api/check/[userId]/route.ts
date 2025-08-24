@@ -21,7 +21,7 @@ export async function GET(req: NextRequest, context: any) {
         // SQL query to fetch checks along with site info, including site createdAt
         const query = `
       SELECT checks.id AS checkId, checks.status, checks.latencyMs, checks.error, checks.createdAt AS checkCreatedAt,
-             sites.name, sites.url, sites.createdAt AS siteCreatedAt
+             sites.name, sites.url, sites.createdAt AS siteCreatedAt, sites.isActive  AS "isActive"
       FROM checks
       JOIN sites ON checks.siteId = sites.id
       WHERE sites.userId = $1
@@ -32,13 +32,14 @@ export async function GET(req: NextRequest, context: any) {
 
         // Transform the result into an object with URL as the key
         const groupedByUrl = result.rows.reduce((acc, row) => {
-            const { url, checkId, status, latencyms, error, checkcreatedat, name, sitecreatedat, siteName } = row;
+            const { url, checkId, status, latencyms, error, checkcreatedat, name, sitecreatedat, isActive } = row;
 
             if (!acc[url]) {
                 acc[url] = {
                     metadata: {
                         createdAt: sitecreatedat,  // Adding site createdAt as metadata
-                        name: name
+                        name: name,
+                        isActive: isActive
                     },
                     checks: [],
                 };

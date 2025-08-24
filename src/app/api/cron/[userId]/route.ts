@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
     try {
         client = await pool.connect();
 
-        const siteQuery = `SELECT * FROM sites WHERE userId = $1`;
+        const siteQuery = `SELECT * FROM sites WHERE userId = $1 and isActive= true`;
         const siteResult = await client.query(siteQuery, [userIdInt]);
         const sites = siteResult.rows;
 
