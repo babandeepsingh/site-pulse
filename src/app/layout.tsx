@@ -69,6 +69,11 @@ export default function RootLayout({
               <meta property="og:description" content="Real-time website monitoring tool for uptime, performance, and security." />
               <meta property="og:image" content="./assets/logo.png" />
               <meta property="og:url" content="https://sitespulse.babandeep.in" />
+              <link rel="apple-touch-icon" href="./assets/logo.png"/>
+              <meta name="apple-mobile-web-app-title" content="sitespulse"/>
+              <meta name="apple-mobile-web-app-capable" content="yes"/>
+              <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+            
             </Head>
           </header>
           {children}
