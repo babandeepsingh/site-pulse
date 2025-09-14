@@ -10,6 +10,8 @@ const pool = new Pool({
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+console.log("Cron job started");
+
 export async function GET(req: NextRequest) {
 
     let client;
@@ -52,12 +54,12 @@ export async function GET(req: NextRequest) {
                     VALUES ($1, $2, $3, $4, $5, $6)
                     RETURNING *;
                 `;
-                const insertValues = [row.id, false, 400, 5000, err.message, , row.isactive];
+                const insertValues = [row.id, false, 400, 5000, err.message, row.isactive];
 
                 await client.query(insertQuery, insertValues);
 
                 const emailInfo = `
-                SELECT u.emailid, s.url
+                SELECT u.emailid, u.fullname, s.url
                 FROM users u
                 JOIN sites s ON u.id = s.userId
                 WHERE s.id = $1;
@@ -75,13 +77,14 @@ export async function GET(req: NextRequest) {
                     from: 'NoReply <noreply@mail.babandeep.in>',
                     to: [resultUser.rows[0].emailid],
                     subject: `Alert from SitesPulse, Your site ${resultUser.rows[0].url} is down`,
-                    html: `<div>Hello</div>,
+                    html: `<div>Hello ${resultUser.rows[0].fullname},</div>
                     <br />
-                    <div>Your website is down ${resultUser.rows[0].url}</div>
+                    <div>Your website is down ${resultUser.rows[0].url} at ${new Date().toUTCString()}</div>
                     <br />
                     <div>Thanks and Regards,</div>
                     <div>Admin</div>`
                 });
+                console.log(data, error, "data::1")
                 if (data) {
                     //do nothing
                 } else {
