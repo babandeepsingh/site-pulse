@@ -1,18 +1,17 @@
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
-
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
   DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Skeleton } from "@/components/ui/skeleton";
@@ -21,12 +20,19 @@ import { Label } from "@/components/ui/label";
 import LandingPage from "@/components/LandingPage/LandingPage";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useDashboard } from "./useDashboard";
-import { UserButton } from "@clerk/nextjs";
-import Image from "next/image";
-import logo from './assets/logo.png'
-import { metadata } from "./layout";
+import { Sidebar } from "@/components/Dashboard/Sidebar";
+import { StatsCards } from "@/components/Dashboard/StatsCards";
+import { SiteCard } from "@/components/Dashboard/SiteCard";
+import { EnhancedChart } from "@/components/Analytics/EnhancedChart";
+import { SitesTab } from "@/components/Tabs/SitesTab";
+import { AnalyticsTab } from "@/components/Tabs/AnalyticsTab";
+import { AlertsTab } from "@/components/Tabs/AlertsTab";
+import { SettingsTab } from "@/components/Tabs/SettingsTab";
+import { HelpTab } from "@/components/Tabs/HelpTab";
+import ChatWidget from "@/components/Chat/ChatWidget";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Info } from "lucide-react";
+import { Info, Plus, Activity, Bell, Settings, Menu, LogOut } from "lucide-react";
+import { SignOutButton } from "@clerk/nextjs";
 
 export default function Home() {
   const {
@@ -46,217 +52,189 @@ export default function Home() {
     setUrlError
   } = useDashboard();
 
+  const [selectedSite, setSelectedSite] = useState<string>("");
+  const [activeTab, setActiveTab] = useState<'sites' | 'analytics' | 'alerts' | 'settings' | 'help'>('sites');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const handleSiteSelect = (siteKey: string) => {
+    setSelectedSite(siteKey);
+    const site = sites[siteKey];
+    if (site?.metadata?.isActive && site?.checks) {
+      handleSiteClick(site.checks, siteKey);
+    }
+  };
+
+  const handleAddSite = () => {
+    // This will be handled by the existing dialog
+  };
+
+  if (!isSignedIn) {
+    return <LandingPage />;
+  }
+
   return (
-    <div className="font-sans px-4 sm:px-8 lg:px-32 py-4 h-screen">
-      {isSignedIn ? (
-        <>
+    <div className="h-screen bg-gray-50 flex">
+      {/* Sidebar */}
+      <Sidebar
+        sites={sites}
+        selectedSite={selectedSite}
+        onSiteSelect={handleSiteSelect}
+        onAddSite={handleAddSite}
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        isMobileOpen={isMobileMenuOpen}
+        setIsMobileOpen={setIsMobileMenuOpen}
+        className="flex-shrink-0"
+      />
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Top Navigation */}
+        <header className="bg-white border-b border-gray-200 px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
-            <div>
-              <Image
-                src={logo}
-                alt="SitesPulse"
-                className="rounded-full m-1"
-                width={50}
-                height={25}
-              />
-            </div>
-            <div>
-              <UserButton />
-            </div>
-          </div>
-
-          <div className="grid">
-            {showError && (
-              <Alert variant="destructive">
-                <AlertTitle>Sorry</AlertTitle>
-                <AlertDescription>We are not able to process the request currently</AlertDescription>
-              </Alert>
-            )}
-            <div className="flex justify-between py-3">
-              <h6>
-                Welcome,{" "}
-                <span className="bg-gradient-to-r text-xl from-cyan-600 to-sky-800 bg-clip-text text-transparent">
-                  {userData?.fullname}
-                </span>
-              </h6>
-              {isSignedIn && userData && !loading && Object.values(sites).filter(site => site?.metadata?.isActive).length < 5 && <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant="outline" className="border-0">Add new site</Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-md">
-                  <DialogHeader>
-                    <DialogTitle>Add a new site</DialogTitle>
-                    <DialogDescription>
-                      We will try to reach website if site is reachable we will add to the dasboard
-                    </DialogDescription>
-                  </DialogHeader>
-                  <form style={{ width: '100%', maxWidth: '600px' }} onSubmit={handleNewUrl}>
-                    <div className="py-4 flex gap-1 items-center">
-
-                      <Label htmlFor="url" >URL</Label>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Info size={'12px'} />
-                        </TooltipTrigger>
-                        <TooltipContent side="right">
-                          <p>Please add the URL you want to monitor.</p>
-                          <p>eg: https://sitespulse.babandeep.in</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </div>
-                    <Input
-                      className="focus-visible:ring-2 focus-visible:ring-sky-800 focus-visible:ring-offset-2 w-full"
-                      type="text"
-                      name="url"
-                      onChange={handleFormValues}
-                    />
-                    {urlError && <div className="text-red-800 text-xs py-1">{urlError}</div>}
-
-                    <Label htmlFor="name" className="py-4">Name</Label>
-
-                    <Input
-                      type="text"
-                      className="focus-visible:ring-2 focus-visible:ring-cyan-600 focus-visible:ring-offset-2 w-full"
-                      name="name"
-                      onChange={handleFormValues}
-                    />
-
-                    <Button className="py-4 my-4 bg-cyan-600 hover:bg-sky-800 text-white text-lg px-6 rounded-md w-full" type="submit">
-                      Submit
-                    </Button>
-                    <DialogClose asChild>
-                      <Button className="w-full border-0" onClick={e=>setUrlError('')} ref={closeRef} type="button" variant="outline">
-                        Close
-                      </Button>
-                    </DialogClose>
-                  </form>
-                  <DialogFooter className="sm:justify-start">
-
-
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>}
-            </div>
-
-          </div>
-
-          {loading && (
-            <div className="flex flex-col space-y-3 py-4">
-              <div className="space-y-2 flex flex-wrap gap-3">
-                <Skeleton className="h-[50px] w-full sm:w-[250px]" />
-                <Skeleton className="h-[50px] w-full sm:w-[250px]" />
-                <Skeleton className="h-[50px] w-full sm:w-[250px]" />
-                <Skeleton className="h-[50px] w-full sm:w-[250px]" />
+            <div className="flex items-center space-x-4">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="lg:hidden"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              >
+                <Menu className="h-5 w-5" />
+              </Button>
+              <div>
+                <h1 className="text-xl sm:text-2xl font-bold text-gray-900">SitePulse</h1>
+                <p className="text-sm text-gray-500">
+                  Welcome back, {userData?.fullname || 'User'}
+                </p>
               </div>
             </div>
-          )}
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 py-4">
-            {Object.keys(sites).map((siteKey) => {
-              const site = sites[siteKey];
-              return (
-                <Card
-                  key={siteKey}
-                  onClick={() => site?.metadata?.isActive ? handleSiteClick(site?.checks, siteKey) : ''}
-                  className={`transition-all duration-300 ease-in-out
-                    ${site?.metadata?.isActive
-                      ? 'bg-gradient-to-r from-cyan-600 to-sky-800 text-white hover:from-sky-800 hover:to-cyan-600 hover:shadow-lg hover:scale-[1.02] cursor-pointer'
-                      : 'bg-secondary text-secondary-foreground shadow-xs border-0'
-                    }`}
-                // className={`bg-gradient-to-r from-teal-500 to-cyan-500 text-white ${site?.metadata?.isActive ? 'cursor-pointer' : 'bg-secondary text-secondary-foreground shadow-xs border-0'}`}
-                >
-                  <CardHeader>
-                    <CardTitle className="text-base">URL : {siteKey}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm">Name : {site.metadata.name || "------"}</p>
-                  </CardContent>
-                  <CardFooter className="flex">
-                    <p className="text-xs">
-                      Created On: {new Date(site.metadata.createdAt).toLocaleString('en-GB')}
-                    </p>
-                  </CardFooter>
-                </Card>
-              );
-            })}
+            <div className="flex items-center space-x-2 sm:space-x-4">
+              <SignOutButton>
+                <Button variant="outline" size="sm">
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Sign Out
+                </Button>
+              </SignOutButton>
+            </div>
           </div>
+        </header>
 
-          {selectedChartOption && Object.keys(selectedChartOption).length > 0 && (
-            <HighchartsReact highcharts={Highcharts} options={selectedChartOption} />
+        {/* Main Dashboard Content */}
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6">
+          {showError && (
+            <Alert variant="destructive" className="mb-6">
+              <AlertTitle>Sorry</AlertTitle>
+              <AlertDescription>We are not able to process the request currently</AlertDescription>
+            </Alert>
           )}
 
-          {/* {isSignedIn && userData && !loading && Object.values(sites).filter(site => site?.metadata?.isActive).length < 5 && <Dialog>
+          {/* Tab Content */}
+          {activeTab === 'sites' && (
+            <SitesTab
+              sites={sites}
+              onSiteSelect={handleSiteSelect}
+              onAddSite={handleAddSite}
+              onToggleActive={(siteKey) => {
+                console.log('Toggle active for', siteKey);
+              }}
+              onDelete={(siteKey) => {
+                console.log('Delete', siteKey);
+              }}
+            />
+          )}
+
+          {activeTab === 'analytics' && (
+            <AnalyticsTab
+              sites={sites}
+              selectedSite={selectedSite}
+              onSiteSelect={handleSiteSelect}
+            />
+          )}
+
+          {activeTab === 'alerts' && (
+            <AlertsTab sites={sites} />
+          )}
+
+          {activeTab === 'settings' && (
+            <SettingsTab sites={sites} userData={userData} />
+          )}
+
+          {activeTab === 'help' && (
+            <HelpTab />
+          )}
+
+          {/* Add Site Dialog - Available in Sites Tab */}
+          <Dialog>
             <DialogTrigger asChild>
-              <Button variant="outline">Add new site</Button>
+              <div style={{ display: 'none' }} />
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
               <DialogHeader>
-                <DialogTitle>Add a new site</DialogTitle>
+                <DialogTitle>Add a new website</DialogTitle>
                 <DialogDescription>
-                  We will try to reach website if site is reachable we will add in dasboard
+                  We'll monitor your website and send you alerts when it goes down or comes back up.
                 </DialogDescription>
               </DialogHeader>
-              <form style={{ width: '100%', maxWidth: '600px' }} onSubmit={handleNewUrl}>
-                <Label htmlFor="url" className="py-4">URL</Label>
-                <Input
-                  className="focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 w-full"
-                  type="text"
-                  name="url"
-                  onChange={handleFormValues}
-                />
-                {urlError && <div className="text-red-400 text-sm py-1">{urlError}</div>}
+              <form onSubmit={handleNewUrl} className="space-y-4">
+                <div className="space-y-2">
+                  <div className="flex items-center space-x-2">
+                    <Label htmlFor="url">Website URL</Label>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Info className="h-4 w-4 text-gray-400" />
+                      </TooltipTrigger>
+                      <TooltipContent side="right">
+                        <p>Enter the full URL including https://</p>
+                        <p>Example: https://example.com</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </div>
+                  <Input
+                    className="focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
+                    type="text"
+                    name="url"
+                    placeholder="https://example.com"
+                    onChange={handleFormValues}
+                  />
+                  {urlError && <p className="text-sm text-red-600">{urlError}</p>}
+                </div>
 
-                <Label htmlFor="name" className="py-4">Name</Label>
-                <Input
-                  type="text"
-                  className="focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 w-full"
-                  name="name"
-                  onChange={handleFormValues}
-                />
+                <div className="space-y-2">
+                  <Label htmlFor="name">Display Name (Optional)</Label>
+                  <Input
+                    type="text"
+                    name="name"
+                    placeholder="My Website"
+                    onChange={handleFormValues}
+                  />
+                </div>
 
-                <Button className="py-4 my-4 bg-teal-700 hover:bg-teal-800 text-white text-lg px-6 rounded-md w-full" type="submit">
-                  Submit
-                </Button>
-                <DialogClose asChild>
-                  <Button className="w-full" ref={closeRef} type="button" variant="secondary">
-                    Close
+                <div className="flex space-x-2 pt-4">
+                  <Button
+                    type="submit"
+                    className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                  >
+                    Add Website
                   </Button>
-                </DialogClose>
+                  <DialogClose asChild>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => setUrlError('')}
+                      ref={closeRef}
+                    >
+                      Cancel
+                    </Button>
+                  </DialogClose>
+                </div>
               </form>
-              <DialogFooter className="sm:justify-start">
-
-
-              </DialogFooter>
             </DialogContent>
-          </Dialog>}
+          </Dialog>
+        </main>
+      </div>
 
-
-          {isSignedIn && userData && !loading && Object.values(sites).filter(site => site?.metadata?.isActive).length < 5 && <form style={{ width: '100%', maxWidth: '600px' }} onSubmit={handleNewUrl}>
-            <Label htmlFor="url" className="py-4">URL</Label>
-            <Input
-              className="focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 w-full"
-              type="text"
-              name="url"
-              onChange={handleFormValues}
-            />
-            {urlError && <div className="text-red-400 text-sm py-1">{urlError}</div>}
-
-            <Label htmlFor="name" className="py-4">Name</Label>
-            <Input
-              type="text"
-              className="focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 w-full"
-              name="name"
-              onChange={handleFormValues}
-            />
-
-            <Button className="py-4 my-4 bg-teal-700 hover:bg-teal-800 text-white text-lg px-6 rounded-md w-full" type="submit">
-              Submit
-            </Button>
-          </form>} */}
-        </>
-      ) : (
-        <LandingPage />
-      )}
+      {/* Chat Widget */}
+      <ChatWidget />
     </div>
   );
 }

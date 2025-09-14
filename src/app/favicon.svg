@@ -1,0 +1,14 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <polyline 
+    points="0,32 10,32 15,20 25,44 35,10 45,40 55,32 64,32" 
+    fill="none" 
+    stroke="green" 
+    stroke-width="4">
+    <animate 
+      attributeName="stroke-dasharray" 
+      from="0,200" 
+      to="200,0" 
+      dur="1.2s" 
+      repeatCount="indefinite"/>
+  </polyline>
+</svg>
