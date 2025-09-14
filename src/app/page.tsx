@@ -102,7 +102,7 @@ export default function Home() {
                 <Menu className="h-5 w-5" />
               </Button>
               <div>
-                <h1 className="text-xl sm:text-2xl font-bold text-gray-900">SitePulse</h1>
+                <h1 className="text-xl sm:text-2xl font-bold text-gray-900">SitesPulse</h1>
                 <p className="text-sm text-gray-500">
                   Welcome back, {userData?.fullname || 'User'}
                 </p>

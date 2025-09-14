@@ -27,7 +27,7 @@ const ChatWidget = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: 'Hello! I\'m your SitePulse support assistant. How can I help you today?',
+      text: 'Hello! I\'m your SitesPulse support assistant. How can I help you today?',
       sender: 'bot',
       timestamp: new Date()
     }
@@ -72,11 +72,11 @@ const ChatWidget = () => {
     const input = userInput.toLowerCase();
     
     if (input.includes('help') || input.includes('support')) {
-      return 'I\'m here to help! You can ask me about monitoring setup, alerts, pricing, or any technical questions about SitePulse.';
+      return 'I\'m here to help! You can ask me about monitoring setup, alerts, pricing, or any technical questions about SitesPulse.';
     }
     
     if (input.includes('monitoring') || input.includes('uptime')) {
-      return 'SitePulse monitors your websites 24/7 and sends instant alerts when issues are detected. You can set up monitoring in just a few clicks from your dashboard.';
+      return 'SitesPulse monitors your websites 24/7 and sends instant alerts when issues are detected. You can set up monitoring in just a few clicks from your dashboard.';
     }
     
     if (input.includes('pricing') || input.includes('cost')) {
@@ -88,10 +88,10 @@ const ChatWidget = () => {
     }
     
     if (input.includes('api') || input.includes('integration')) {
-      return 'Yes! SitePulse has a comprehensive API for integrating with your existing tools. Check our documentation for API endpoints and examples.';
+      return 'Yes! SitesPulse has a comprehensive API for integrating with your existing tools. Check our documentation for API endpoints and examples.';
     }
     
-    return 'Thanks for your message! For more specific help, you can also reach our support team at support@sitepulse.com or check our help center.';
+    return 'Thanks for your message! For more specific help, you can also reach our support team at support@SitesPulse.com or check our help center.';
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

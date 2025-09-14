@@ -20,19 +20,19 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SitePulse - Professional Website Monitoring",
-  description: "Monitor your website's uptime, performance, and security with SitePulse. Get real-time alerts and insights with our professional monitoring platform.",
+  title: "SitesPulse - Professional Website Monitoring",
+  description: "Monitor your website's uptime, performance, and security with SitesPulse. Get real-time alerts and insights with our professional monitoring platform.",
   openGraph: {
-    title: "SitePulse - Real-Time Website Monitoring & Analytics",
+    title: "SitesPulse - Real-Time Website Monitoring & Analytics",
     description: "Monitor your websites in real-time with powerful analytics and seamless uptime checks.",
     url: "https://sitespulse.babandeep.in/",
-    siteName: "SitePulse",
+    siteName: "SitesPulse",
     images: [
       {
         url: "/logo.png",
         width: 800,
         height: 600,
-        alt: "SitePulse Logo",
+        alt: "SitesPulse Logo",
       },
     ],
     locale: "en_US",
@@ -55,7 +55,7 @@ export default function RootLayout({
               __html: JSON.stringify({
                 "@context": "https://schema.org",
                 "@type": "SoftwareApplication",
-                "name": "SitePulse",
+                "name": "SitesPulse",
                 "url": "https://sitespulse.babandeep.in/",
                 "applicationCategory": "WebApplication",
                 "operatingSystem": "All",
@@ -67,18 +67,18 @@ export default function RootLayout({
               }),
             }}
           />
-          <title>SitePulse - Professional Website Monitoring</title>
+          <title>SitesPulse - Professional Website Monitoring</title>
           <meta charSet="utf-8" />
-          <meta name="description" content="Monitor your website's uptime, performance, and security with SitePulse. Get real-time alerts and insights with our professional monitoring platform." />
-          <meta property="og:title" content="SitePulse - Professional Website Monitoring" />
-          <meta name="keywords" content="Covid, Covid19, virus, india, covid cases, let&#x27;s fight with Covid" />
+          <meta name="description" content="Monitor your website's uptime, performance, and security with SitesPulse. Get real-time alerts and insights with our professional monitoring platform." />
+          <meta property="og:title" content="SitesPulse - Professional Website Monitoring" />
+          <meta name="keywords" content="SitesPulse - Professional Website Monitoring" />
           <meta property="og:description" content="Real-time website monitoring tool for uptime, performance, and security. Trusted by businesses worldwide." />
           <meta property="og:image" content="./assets/logo.png" />
-          <meta property="og:url" content="https://sitepulse.com" />
+          <meta property="og:url" content="https://SitesPulse.com" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no,user-scalable=no,viewport-fit=cover" />
           <link rel="apple-touch-icon" href="/favicon.ico" />
-          <meta name="apple-mobile-web-app-title" content="SitePulse" />
+          <meta name="apple-mobile-web-app-title" content="SitesPulse" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="default" />
           <meta property="og:title" content="Website monitoring Tools" />

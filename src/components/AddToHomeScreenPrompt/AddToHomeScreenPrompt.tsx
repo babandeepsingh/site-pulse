@@ -14,7 +14,7 @@ const styles: { prompt: React.CSSProperties } = {
         borderRadius: 8,
         textAlign: 'center' as const,
         zIndex: 1000,
-    },
+    }
 };
 const AddToHomeScreenPrompt = () => {
     const [showPrompt, setShowPrompt] = useState(false);
@@ -23,6 +23,7 @@ const AddToHomeScreenPrompt = () => {
     useEffect(() => {
         const device = getDeviceType();
         setDeviceType(device);
+        // localStorage.removeItem('a2hsPromptDismissed');
 
         const dismissed = localStorage.getItem('a2hsPromptDismissed');
 
@@ -49,7 +50,7 @@ const AddToHomeScreenPrompt = () => {
     return (
         <div style={styles.prompt}>
             <p>Install this app on your {deviceType}: {getInstructions()}</p>
-            <button onClick={() => {
+            <button style={{padding: '5px', outline: '1px solid #ccc', borderRadius: '5px'}} onClick={() => {
                 setShowPrompt(false);
                 localStorage.setItem('a2hsPromptDismissed', 'true');
             }}>Close</button>

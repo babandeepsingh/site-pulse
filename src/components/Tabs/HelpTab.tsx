@@ -61,7 +61,7 @@ export function HelpTab() {
     },
     {
       title: "API Documentation",
-      description: "Integrate SitePulse with your applications",
+      description: "Integrate SitesPulse with your applications",
       icon: FileText,
       type: "documentation"
     },

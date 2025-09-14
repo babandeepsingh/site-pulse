@@ -98,7 +98,7 @@ export function Sidebar({ sites, selectedSite, onSiteSelect, onAddSite, activeTa
             <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
               <Activity className="h-5 w-5 text-white" />
             </div>
-            <span className="text-lg font-semibold text-gray-900">SitePulse</span>
+            <span className="text-lg font-semibold text-gray-900">SitesPulse</span>
           </div>
         )}
         <Button

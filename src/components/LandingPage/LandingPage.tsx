@@ -66,13 +66,13 @@ const LandingPage = () => {
     {
       name: "Sarah Johnson",
       role: "CTO, TechCorp",
-      content: "SitePulse has been a game-changer for our infrastructure monitoring. The real-time alerts saved us from multiple outages.",
+      content: "SitesPulse has been a game-changer for our infrastructure monitoring. The real-time alerts saved us from multiple outages.",
       rating: 5
     },
     {
       name: "Mike Chen",
       role: "DevOps Engineer, StartupXYZ",
-      content: "The analytics dashboard is incredibly detailed. We've improved our site performance by 40% since using SitePulse.",
+      content: "The analytics dashboard is incredibly detailed. We've improved our site performance by 40% since using SitesPulse.",
       rating: 5
     },
     {
@@ -143,7 +143,7 @@ const LandingPage = () => {
               <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
                 <Monitor className="h-5 w-5 text-white" />
               </div>
-              <span className="text-xl font-bold text-gray-900">SitePulse</span>
+              <span className="text-xl font-bold text-gray-900">SitesPulse</span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
               <a href="#features" className="text-gray-600 hover:text-gray-900 transition-colors">Features</a>
@@ -157,7 +157,7 @@ const LandingPage = () => {
                 </DialogTrigger>
                 <DialogContent className="max-w-md sm:p-0">
                   <DialogHeader>
-                    <DialogTitle>Welcome to SitePulse</DialogTitle>
+                    <DialogTitle>Welcome to SitesPulse</DialogTitle>
                   </DialogHeader>
                   <div className="flex justify-center items-center p-4">
                     <SignIn routing="hash" />
@@ -172,7 +172,7 @@ const LandingPage = () => {
                     </DialogTrigger>
                 <DialogContent className="max-w-md sm:p-0">
                         <DialogHeader>
-                    <DialogTitle>Welcome to SitePulse</DialogTitle>
+                    <DialogTitle>Welcome to SitesPulse</DialogTitle>
                         </DialogHeader>
                   <div className="flex justify-center items-center p-4">
                     <SignIn routing="hash" />
@@ -212,7 +212,7 @@ const LandingPage = () => {
                 </DialogTrigger>
                 <DialogContent className="max-w-md sm:p-0">
                   <DialogHeader>
-                    <DialogTitle>Welcome to SitePulse</DialogTitle>
+                    <DialogTitle>Welcome to SitesPulse</DialogTitle>
                   </DialogHeader>
                   <div className="flex justify-center items-center p-4">
                             <SignIn routing="hash" />
@@ -303,7 +303,7 @@ const LandingPage = () => {
               Loved by developers and businesses
             </h2>
             <p className="text-xl text-gray-600">
-              See what our customers have to say about SitePulse
+              See what our customers have to say about SitesPulse
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -378,7 +378,7 @@ const LandingPage = () => {
                     </DialogTrigger>
                     <DialogContent className="max-w-md sm:p-0">
                       <DialogHeader>
-                        <DialogTitle>Welcome to SitePulse</DialogTitle>
+                        <DialogTitle>Welcome to SitesPulse</DialogTitle>
                       </DialogHeader>
                       <div className="flex justify-center items-center p-4">
                         <SignIn routing="hash" />
@@ -399,7 +399,7 @@ const LandingPage = () => {
             Ready to start monitoring your websites?
           </h2>
           <p className="text-xl mb-8 text-blue-100">
-            Join thousands of businesses who trust SitePulse to keep their websites running smoothly.
+            Join thousands of businesses who trust SitesPulse to keep their websites running smoothly.
                 </p>
                 <Dialog>
                     <DialogTrigger asChild>
@@ -410,7 +410,7 @@ const LandingPage = () => {
                     </DialogTrigger>
             <DialogContent className="max-w-md sm:p-0">
                         <DialogHeader>
-                <DialogTitle>Welcome to SitePulse</DialogTitle>
+                <DialogTitle>Welcome to SitesPulse</DialogTitle>
                         </DialogHeader>
               <div className="flex justify-center items-center p-4">
                             <SignIn routing="hash" />
@@ -429,7 +429,7 @@ const LandingPage = () => {
                 <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
                   <Monitor className="h-5 w-5 text-white" />
                 </div>
-                <span className="text-xl font-bold">SitePulse</span>
+                <span className="text-xl font-bold">SitesPulse</span>
               </div>
               <p className="text-gray-400">
                 Professional website monitoring for businesses of all sizes.
@@ -464,7 +464,7 @@ const LandingPage = () => {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; {new Date().getFullYear()} SitePulse. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} SitesPulse. All rights reserved.</p>
           </div>
                         </div>
       </footer>
